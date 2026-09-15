@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marco Antonio te envió algo</title>
+<meta name="theme-color" content="#BFE3FA">
+<meta property="og:title" content="¡Marco Antonio te envió algo!">
+<meta property="og:description" content="¡Abre para verlo!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Parisienne&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0C6B32;
+  --verde-osc:#0A4F26;
+  --oro:#EDD98A;
+  --tinta:#10261A;
+  --papel:#FDF6DC;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:radial-gradient(circle at 50% 40%, #EDF8FE 0%, #C4E5FB 52%, #9BD1F5 100%);
+  font-family:"Nunito",system-ui,sans-serif;
+  color:var(--tinta);
+  overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.marca{position:fixed;top:calc(env(safe-area-inset-top,0px) + clamp(10px,2.2vh,18px));left:0;right:0;text-align:center;z-index:5;pointer-events:none;padding:0 max(16px, env(safe-area-inset-left)) 0 max(16px, env(safe-area-inset-right))}
+.marca b{display:block;font-family:"Parisienne",cursive;font-weight:400;font-size:clamp(30px,8vw,44px);color:#12291C;line-height:1.1}
+.marca i{font-family:"Parisienne",cursive;font-style:normal;font-size:clamp(15px,4vw,19px);color:#5C6B60}
+.marca i em{font-style:normal;color:var(--verde)}
+
+.escena{height:100dvh;display:grid;place-items:center;padding:calc(env(safe-area-inset-top,0px) + clamp(78px,15vh,132px)) max(16px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom,0px) + 60px) max(16px, env(safe-area-inset-left));position:relative}
+.paso{display:grid;place-items:center;gap:20px;text-align:center}
+.paso.fuera{opacity:0;pointer-events:none;position:absolute}
+
+/* ══ 1. Regalo ══ */
+.titulo{font-size:clamp(21px,5.6vw,29px);font-weight:600;transition:opacity .35s ease,transform .35s ease}
+.titulo b{display:block;color:var(--verde);font-size:clamp(28px,8vw,40px);font-weight:700;margin-top:2px}
+.regalo{border:0;background:none;cursor:pointer;padding:0;display:block}
+.regalo svg{width:min(54vw,205px);height:auto;filter:drop-shadow(0 16px 24px rgba(10,60,30,.26))}
+#cajaWrap{animation:flotar 3.4s ease-in-out infinite}
+@keyframes flotar{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+.pista{font-size:15px;color:#3F5548;animation:respira 2.4s ease-in-out infinite}
+@keyframes respira{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* apertura */
+.abriendo #cajaWrap{animation:sacudir .42s ease-in-out 2}
+@keyframes sacudir{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+.abriendo .titulo,.abriendo .pista{opacity:0;transform:translateY(8px)}
+.volando #tapa{animation:volar .9s cubic-bezier(.2,.75,.35,1) forwards}
+@keyframes volar{
+  30%{transform:translateY(-70px) rotate(-8deg)}
+  100%{transform:translateY(-360px) rotate(-52deg);opacity:0}
+}
+.volando #cajaWrap{animation:hundir .8s .35s cubic-bezier(.4,0,.6,1) forwards}
+@keyframes hundir{to{transform:translateY(70px) scale(.72);opacity:0}}
+.destello{
+  position:absolute;width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle,#FFF6C9 0%,rgba(255,246,201,0) 70%);
+  opacity:0;pointer-events:none;
+}
+.volando .destello{animation:brillar .9s ease-out .12s forwards}
+@keyframes brillar{0%{opacity:0;transform:scale(.4)}35%{opacity:1;transform:scale(9)}100%{opacity:0;transform:scale(16)}}
+
+/* ══ 2. Ramo ══ */
+#ramoSvg{width:min(86vw,360px);height:auto;max-height:62dvh;cursor:pointer;overflow:visible}
+#brotar{
+  transform-box:fill-box;transform-origin:50% 100%;
+  animation:brotar 1.15s cubic-bezier(.22,1.3,.36,1) both;
+}
+@keyframes brotar{
+  0%{transform:translateY(120px) scale(.14);opacity:0}
+  35%{opacity:1}
+  65%{transform:translateY(-14px) scale(1.06)}
+  100%{transform:translateY(0) scale(1)}
+}
+#vaiven{transform-box:fill-box;transform-origin:50% 92%;animation:vaiven 6s ease-in-out 1.3s infinite}
+@keyframes vaiven{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+.rosa{transform-box:fill-box;transform-origin:center;animation:florecer .72s cubic-bezier(.18,1.65,.4,1) both}
+@keyframes florecer{0%{transform:scale(0) rotate(-45deg)}100%{transform:scale(1) rotate(0)}}
+.hoja{transform-box:fill-box;transform-origin:20% 50%;animation:florecer .6s cubic-bezier(.2,1.5,.4,1) both}
+.pista-ramo{opacity:0;animation:aparecer .7s ease 2.4s forwards}
+@keyframes aparecer{to{opacity:1}}
+
+/* corazones */
+.corazon{position:fixed;top:-7vh;z-index:3;pointer-events:none;animation:caer linear forwards;will-change:transform}
+@keyframes caer{
+  0%{opacity:0;transform:translateY(0) rotate(-14deg) scale(.7)}
+  10%{opacity:1;transform:translateY(8vh) rotate(-6deg) scale(1)}
+  100%{opacity:.08;transform:translateY(112dvh) translateX(var(--deriva)) rotate(26deg) scale(.9)}
+}
+
+/* ══ 3. Tarjeta ══ */
+.velo{position:fixed;inset:0;background:rgba(10,38,24,.36);opacity:0;pointer-events:none;transition:opacity .4s ease;z-index:9}
+.velo.vivo{opacity:1;pointer-events:auto}
+.tarjeta{
+  position:fixed;z-index:10;left:50%;bottom:0;width:min(94vw,520px);max-height:88dvh;
+  transform:translate(-50%,102%);transition:transform .55s cubic-bezier(.25,.9,.3,1);
+  background:var(--papel);border-radius:22px 22px 0 0;
+  box-shadow:0 -10px 40px rgba(10,40,25,.3);display:flex;flex-direction:column;
+}
+.tarjeta.vivo{transform:translate(-50%,0)}
+.asa{width:46px;height:5px;border-radius:99px;background:#D9CFA8;margin:10px auto 0;flex:none}
+.cuerpo{overflow-y:auto;padding:16px max(clamp(20px,6vw,34px), env(safe-area-inset-right)) 26px max(clamp(20px,6vw,34px), env(safe-area-inset-left));-webkit-overflow-scrolling:touch}
+.para,.de{font-size:17px}
+.para span,.de span{color:#5B6B5F}
+.de{margin-bottom:18px}
+.cuerpo p{font-size:clamp(15.5px,4.2vw,17px);line-height:1.68;margin-bottom:15px;color:#1C2E22}
+.cerrar{flex:none;margin:0 auto calc(16px + env(safe-area-inset-bottom,0px));background:var(--verde);color:#fff;border:0;font-family:inherit;
+  font-size:15px;font-weight:600;padding:11px 26px;border-radius:99px;cursor:pointer}
+.cerrar:hover{background:var(--verde-osc)}
+:focus-visible{outline:3px solid var(--verde);outline-offset:4px;border-radius:6px}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+</style>
+</head>
+<body>
+
+<div class="marca" aria-hidden="true">
+  <b>Para ti</b>
+  <i>de <em>Marco Antonio</em></i>
+</div>
+
+<main class="escena">
+
+  <div class="paso" id="paso1">
+    <div class="titulo">Abre tu regalo de<b id="nombreDe">Marco Antonio</b></div>
+    <button class="regalo" id="btnRegalo" aria-label="Abrir el regalo">
+      <span class="destello"></span>
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <defs>
+          <linearGradient id="gCaja" x1="0" y1="0" x2=".3" y2="1">
+            <stop offset="0" stop-color="#15A04C"/><stop offset=".55" stop-color="#0C6B32"/><stop offset="1" stop-color="#07431F"/>
+          </linearGradient>
+          <linearGradient id="gTapa" x1="0" y1="0" x2=".2" y2="1">
+            <stop offset="0" stop-color="#139345"/><stop offset="1" stop-color="#095F2C"/>
+          </linearGradient>
+          <linearGradient id="gCinta" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#E4CC76"/><stop offset=".5" stop-color="#F6E9AE"/><stop offset="1" stop-color="#E0C56A"/>
+          </linearGradient>
+        </defs>
+        <g id="cajaWrap">
+          <rect x="18" y="86" width="184" height="146" rx="13" fill="url(#gCaja)"/>
+          <rect x="18" y="142" width="184" height="27" fill="url(#gCinta)"/>
+          <rect x="96" y="86" width="28" height="146" fill="url(#gCinta)"/>
+          <g id="tapa">
+            <rect x="11" y="28" width="198" height="56" rx="13" fill="url(#gTapa)"/>
+            <rect x="96" y="28" width="28" height="56" fill="url(#gCinta)"/>
+            <path d="M110 30 q-30 -30 -2 -26 q14 3 2 26 Z" fill="#E4CC76"/>
+            <path d="M110 30 q30 -30 2 -26 q-14 3 -2 26 Z" fill="#F2DE96"/>
+          </g>
+        </g>
+      </svg>
+    </button>
+    <div class="pista">Toca para abrir</div>
+  </div>
+
+  <div class="paso fuera" id="paso2">
+    <svg id="ramoSvg" viewBox="0 0 360 440" role="button" tabindex="0" aria-label="Abrir la tarjeta"></svg>
+    <div class="pista pista-ramo">Toca el ramo para leer la tarjeta</div>
+  </div>
+
+</main>
+
+<div class="velo" id="velo"></div>
+
+<section class="tarjeta" id="tarjeta" aria-hidden="true">
+  <div class="asa"></div>
+  <div class="cuerpo">
+    <div class="para"><span>Para:</span> <strong id="tPara"></strong></div>
+    <div class="de"><span>De:</span> <strong id="tDe"></strong></div>
+    <div id="tMensaje"></div>
+  </div>
+  <button class="cerrar" id="btnCerrar">Cerrar</button>
+</section>
+
+<script>
+/* ════════════ CONFIG — cambia solo esto ════════════ */
+const CONFIG = {
+  para: "Fernanda",
+  de: "Marco Antonio",
+  mensaje: `Hola, ehh sé que ha pasado varios días desde la última vez que hablamos y la verdad no sabía si escribirte o no. No porque no quisiera hacerlo, al contrario, varias veces tuve ganas de hablarte, pero después de cómo quedaron las cosas preferí darte tu espacio.
+
+La verdad es que me he quedado un poco confundido con todo. Porque en un momento siento que estamos bien, que hay cariño y que los dos estamos disfrutando conocernos, y después siento que te alejas un poco y ya no sé cómo tomar las cosas. Y quizá también yo pude haber entendido mal algunas cosas.
+
+No te escribo para reclamarte ni para hacerte sentir mal, solamente quería ser sincero contigo. Me gustas, y aunque llevemos poco tiempo conociéndonos, sí me he encariñado contigo y disfruto mucho hablar contigo. Por eso también me cuesta simplemente hacer como si nada cuando siento que algo cambia.
+
+No sé exactamente qué estés pensando tú ni cómo estés viendo las cosas entre nosotros, pero tampoco quiero presionarte. Solo quería hablarte y saber cómo estás, y si todavía tienes ganas de seguir conociéndonos y ver qué pasa entre nosotros. ❤️`
+};
+/* ═══════════════════════════════════════════════════ */
+
+document.title = CONFIG.de + " te envió algo";
+document.getElementById("nombreDe").textContent = CONFIG.de;
+document.getElementById("tPara").textContent = CONFIG.para;
+document.getElementById("tDe").textContent = CONFIG.de;
+document.querySelector(".marca i").innerHTML = "de <em>" + CONFIG.de + "</em>";
+document.getElementById("tMensaje").innerHTML =
+  CONFIG.mensaje.trim().split(/\n\s*\n/).map(t => {
+    const p = document.createElement("p"); p.textContent = t.trim(); return p.outerHTML;
+  }).join("");
+
+/* ═══ Ramo en SVG ═══ */
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("ramoSvg");
+const el = (t,a) => { const n = document.createElementNS(NS,t); for (const k in a) n.setAttribute(k,a[k]); return n; };
+
+/* jitter pseudo-aleatorio pero estable, para que cada rosa se vea única sin quedar caótica */
+let semilla = 7;
+function azar(){ semilla = (semilla*9301+49297)%233280; return semilla/233280; }
+function variar(rango){ return (azar()*2-1)*rango; }
+
+/* un pétalo con punta redondeada y acopada, como un pétalo de rosa real */
+function petalo(r, ancho){
+  const w = r * ancho;
+  const t = r * .16; // mitad del ancho de la punta redondeada
+  return `M 0 0 C ${w*.60} ${-r*.20} ${w*.66} ${-r*.66} ${t} ${-r*.95} `+
+         `Q 0 ${-r*1.04} ${-t} ${-r*.95} `+
+         `C ${-w*.66} ${-r*.66} ${-w*.60} ${-r*.20} 0 0 Z`;
+}
+
+/* rosa en capas, de fuera hacia dentro, con ligera variación orgánica por pétalo.
+   Nota: la posición (translate/scale) va en un <g> exterior SIN animación, y el
+   florecimiento (CSS animation sobre "transform") va en un <g> interior aparte;
+   si ambos transforms vivieran en el mismo <g>, la animación CSS reemplazaría
+   por completo al atributo transform de posición y todas las rosas colapsarían
+   en el mismo punto. */
+function rosa(x, y, esc, tono, retraso){
+  const outer = el("g", { transform:`translate(${x} ${y}) scale(${esc})` });
+  const g = el("g", { class:"rosa" });
+  if (retraso != null) g.style.animationDelay = retraso + "s";
+  const T = tono || 0;                    // 0 = frontal (brillante), 1 = al fondo (más oscura)
+  const paletas = [
+    ["#B8102F","#9E0A26","#84071F"],
+    ["#8C0A24","#75061C","#5E0416"]
+  ];
+  const pal = paletas[T];
+  const capas = [
+    { n:8, r:44, w:.92, fill:pal[0] },
+    { n:7, r:35, w:.90, fill:pal[0] },
+    { n:7, r:27, w:.88, fill:pal[1] },
+    { n:6, r:20, w:.86, fill:pal[1] },
+    { n:5, r:14, w:.82, fill:pal[2] },
+    { n:4, r:9,  w:.78, fill:pal[2] }
+  ];
+  let anguloBase = variar(30);
+  capas.forEach(c => {
+    const paso = 360 / c.n;
+    for (let i = 0; i < c.n; i++){
+      const a = paso * i + anguloBase + variar(paso*0.28);
+      const rr = c.r * (1 + variar(0.045));
+      g.appendChild(el("path", {
+        d: petalo(rr, c.w + variar(0.05)), fill: c.fill,
+        stroke: "rgba(60,3,14,.4)", "stroke-width": .8,
+        transform:`rotate(${a.toFixed(1)})`
+      }));
+    }
+    anguloBase += paso*0.5;
+  });
+  // remolino del centro
+  g.appendChild(el("path", {
+    d:"M 0 -4 a 4.4 4.4 0 1 1 -4 2.6 a 2.6 2.6 0 1 0 3 -1.4",
+    fill:"none", stroke: T ? "#4A0310" : "#5E0416", "stroke-width":2, "stroke-linecap":"round"
+  }));
+  // luz
+  g.appendChild(el("ellipse", { cx:-11, cy:-16, rx:10, ry:5.5, fill:"#fff", opacity:T ? .04 : .10, transform:"rotate(-28)" }));
+  outer.appendChild(g);
+  return outer;
+}
+
+function hoja(x, y, ang, largo, claro, retraso){
+  const outer = el("g", { transform:`translate(${x} ${y}) rotate(${ang})` });
+  const g = el("g", { class:"hoja" });
+  if (retraso != null) g.style.animationDelay = retraso + "s";
+  g.appendChild(el("path", {
+    d:`M 0 0 Q ${largo*.42} ${-largo*.46} ${largo} 0 Q ${largo*.42} ${largo*.30} 0 0 Z`,
+    fill: claro ? "#2E9A4C" : "#1B6E36"
+  }));
+  g.appendChild(el("path", { d:`M 3 -1 Q ${largo*.45} ${-largo*.20} ${largo-6} -1`, fill:"none",
+    stroke:"rgba(255,255,255,.28)", "stroke-width":1.5 }));
+  outer.appendChild(g);
+  return outer;
+}
+
+function construirRamo(){
+  svg.innerHTML = "";
+  semilla = 7; // misma composición cada vez que se abre
+
+  const defs = el("defs", {});
+  defs.innerHTML =
+    '<linearGradient id="gKraft" x1="0" y1="0" x2="1" y2=".6">' +
+      '<stop offset="0" stop-color="#D6B78D"/><stop offset=".45" stop-color="#C0A177"/>' +
+      '<stop offset="1" stop-color="#A2855E"/></linearGradient>' +
+    '<pattern id="grano" width="7" height="7" patternUnits="userSpaceOnUse">' +
+      '<circle cx="1.6" cy="1.6" r=".9" fill="#7C6242" opacity=".13"/>' +
+      '<circle cx="5.2" cy="4.6" r=".7" fill="#8C7150" opacity=".11"/></pattern>' +
+    '<linearGradient id="gLazo" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E6E5DF"/></linearGradient>';
+  svg.appendChild(defs);
+
+  const brotar = el("g", { id:"brotar" });
+  const vaiven = el("g", { id:"vaiven" });
+  brotar.appendChild(vaiven);
+  svg.appendChild(brotar);
+
+  /* --- papel de atrás --- */
+  const atras = el("g", {});
+  atras.appendChild(el("path", { d:"M 176 250 L 40 156 L 96 120 L 186 206 Z", fill:"#B79867", opacity:".85" }));
+  atras.appendChild(el("path", { d:"M 184 250 L 320 156 L 264 120 L 174 206 Z", fill:"#B79867", opacity:".85" }));
+  vaiven.appendChild(atras);
+
+  /* --- rosas del fondo --- */
+  const fondo = [[108,132,.86],[252,130,.88],[180,100,.84],[70,182,.78],[290,180,.80]];
+  fondo.forEach(([x,y,s],i) => {
+    vaiven.appendChild(rosa(x, y, s, 1, 0.85 + i*0.08));
+  });
+
+  /* --- cono de papel --- */
+  const cono = el("g", {});
+  const forma = "M 92 208 L 268 208 L 210 392 L 150 392 Z";
+  cono.appendChild(el("path", { d:forma, fill:"url(#gKraft)" }));
+  cono.appendChild(el("path", { d:forma, fill:"url(#grano)" }));
+  cono.appendChild(el("path", { d:"M 92 208 L 180 300 L 150 392 Z", fill:"#000", opacity:".09" }));
+  cono.appendChild(el("path", { d:"M 268 208 L 180 300 L 210 392 Z", fill:"#fff", opacity:".10" }));
+  cono.appendChild(el("path", { d:"M 130 208 L 168 392", stroke:"rgba(90,70,45,.18)", "stroke-width":1.6, fill:"none" }));
+  cono.appendChild(el("path", { d:"M 228 208 L 194 392", stroke:"rgba(90,70,45,.18)", "stroke-width":1.6, fill:"none" }));
+  vaiven.appendChild(cono);
+
+  /* --- rosas del frente --- */
+  const frente = [[146,152,1.08],[216,150,1.08],[180,182,1.12],[100,196,.98],[260,194,1.0],[180,116,1.02],[126,236,.90],[234,234,.92],[180,208,.86]];
+  frente.forEach(([x,y,s],i) => {
+    vaiven.appendChild(rosa(x, y, s, 0, 1.0 + i*0.09));
+  });
+
+  /* --- hojas que asoman entre las rosas --- */
+  const hojas = [[86,244,-34,72,0],[274,242,214,72,0],[180,240,90,54,1],[122,268,-14,58,1],[238,266,194,58,1]];
+  hojas.forEach(([x,y,a,l,c],i) => {
+    vaiven.appendChild(hoja(x, y, a, l, c, 1.75 + i*0.06));
+  });
+
+  /* --- moño --- */
+  const lazo = el("g", {});
+  lazo.appendChild(el("path", { d:"M 168 300 q -70 -34 -74 6 q 4 42 74 14 Z", fill:"url(#gLazo)", stroke:"#DFDED7", "stroke-width":2 }));
+  lazo.appendChild(el("path", { d:"M 192 300 q 70 -34 74 6 q -4 42 -74 14 Z", fill:"url(#gLazo)", stroke:"#DFDED7", "stroke-width":2 }));
+  lazo.appendChild(el("ellipse", { cx:126, cy:308, rx:22, ry:11, fill:"#E4E3DC" }));
+  lazo.appendChild(el("ellipse", { cx:234, cy:308, rx:22, ry:11, fill:"#E4E3DC" }));
+  lazo.appendChild(el("path", { d:"M 166 316 l -10 62 l 22 -12 Z", fill:"#F4F3EF" }));
+  lazo.appendChild(el("path", { d:"M 194 316 l 10 62 l -22 -12 Z", fill:"#FAFAF7" }));
+  lazo.appendChild(el("circle", { cx:180, cy:310, r:17, fill:"#FCFCFA", stroke:"#E6E5DF", "stroke-width":2 }));
+  lazo.style.opacity = "0";
+  lazo.style.animation = "florecer .6s cubic-bezier(.2,1.5,.4,1) 1.75s forwards";
+  lazo.style.transformBox = "fill-box";
+  lazo.style.transformOrigin = "center";
+  vaiven.appendChild(lazo);
+  setTimeout(() => { lazo.style.opacity = "1"; }, 1750);
+}
+
+/* ═══ Corazones ═══ */
+const TONOS = ["#FF4C7D","#FF7FA6","#F52E62","#FFA8C2","#E31B51"];
+function soltarCorazon(grande){
+  const c = document.createElement("div");
+  c.className = "corazon";
+  const t = (grande ? 20 : 14) + Math.random() * 22;
+  c.style.left = Math.random() * 96 + "vw";
+  c.style.fontSize = t + "px";
+  c.style.color = TONOS[Math.floor(Math.random()*TONOS.length)];
+  c.style.setProperty("--deriva", (Math.random()*150 - 75) + "px");
+  c.style.animationDuration = (5.5 + Math.random()*5).toFixed(1) + "s";
+  c.textContent = "♥";
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 12000);
+}
+function iniciarCorazones(){
+  for (let i = 0; i < 26; i++) setTimeout(() => soltarCorazon(true), i * 90);
+  setInterval(soltarCorazon, 780);
+}
+
+/* ═══ Flujo ═══ */
+const paso1 = document.getElementById("paso1");
+const paso2 = document.getElementById("paso2");
+const tarjeta = document.getElementById("tarjeta");
+const velo = document.getElementById("velo");
+let abierto = false;
+
+document.getElementById("btnRegalo").addEventListener("click", () => {
+  if (abierto) return;
+  abierto = true;
+  paso1.classList.add("abriendo");            // sacudida
+  setTimeout(() => paso1.classList.add("volando"), 840);   // tapa vuela
+  setTimeout(() => {
+    paso1.classList.add("fuera");
+    paso2.classList.remove("fuera");
+    construirRamo();
+    iniciarCorazones();
+  }, 1180);
+});
+
+function abrirTarjeta(){
+  tarjeta.classList.add("vivo"); velo.classList.add("vivo");
+  tarjeta.setAttribute("aria-hidden","false");
+}
+function cerrarTarjeta(){
+  tarjeta.classList.remove("vivo"); velo.classList.remove("vivo");
+  tarjeta.setAttribute("aria-hidden","true");
+}
+svg.addEventListener("click", abrirTarjeta);
+svg.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); abrirTarjeta(); } });
+document.getElementById("btnCerrar").addEventListener("click", cerrarTarjeta);
+velo.addEventListener("click", cerrarTarjeta);
+</script>
+</body>
+</html>
